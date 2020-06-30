@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+
+	<robot name="primeiro_bot" >
+
+	<!-- ######################### Geometria ################################ -->
+	<!-- Base do corpo -->
+	<link name="base_link">
+		<visual>
+			<geometry>
+				<box size="0.6 0.3 0.1"/>
+			</geometry>
+			<material name="red">
+				<color rgba="1 0.0 0.0 1"/>
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+				<box size="0.6 0.3 0.1"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="1.0"/>
+			<inertia ixx="0.015" ixy="0.0" ixz= "0.0" iyy="0.0375" iyz="0.0" izz="0.0375"/>
+		</inertial>
+	</link>
+
+	<!-- Parte frontal -->
+	<link name="frontal">
+		<visual>
+			<geometry>
+				<box size="0.1 0.1 0.1"/>
+			</geometry>
+			<material name="green">
+				<color rgba="0.0 0.1 0.0 0.1"/>
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+				<box size="0.1 0.1 0.1"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="0.00083" ixy="0.0" ixz= "0.0" iyy="0.00083" iyz="0.0" izz="0.000167"/>
+		</inertial>
+	</link>
+
+	<!-- Junta entre a parte frontal e a base -->
+	<joint name="frontal_joint" type="continuous">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="base_link"/>
+		<child link="frontal"/>
+		<origin xyz="0.3 0.0 0.0" rpy="0.0 0.0 0.0"/>
+	</joint>
+
+	<!-- Rodas da frente -->
+	<link name="roda_frontal">
+		<visual>
+			<geometry>
+				<cylinder radius="0.035" length="0.05"/>
+			</geometry>
+
+			<material name="black">
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+				<cylinder radius="0.035" length="0.05"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="5.1458e-5" ixy="0.0" ixz= "0.0" iyy="5.1458e-5" iyz="0.0" izz="6.125e-5"/>
+		</inertial>
+	</link>
+
+	<joint name="roda_frontal_joint" type="continuous">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="frontal"/>
+		<child link="roda_frontal"/>
+		<origin xyz="0.05 0.0 -0.05" rpy="-1.5708 0.0 0.0"/>
+	</joint>
+
+	<!-- Rodas traseiras -->
+	<!-- Direita -->
+	<link name="roda_direita">
+		<visual>
+			<geometry>
+				<cylinder radius="0.035" length="0.05"/>
+			</geometry>
+
+			<material name="black">
+				<color rgba="0.0 0.0 0.0 1"/>
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+				<cylinder radius="0.035" length="0.05"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="5.1458e-5" ixy="0.0" ixz= "0.0" iyy="5.1458e-5" iyz="0.0" izz="6.125e-5"/>
+		</inertial>
+	</link>
+
+	<joint name="roda_direita_joint" type="continuous">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="base_link"/>
+		<child link="roda_direita"/>
+		<origin xyz="-0.2825 -0.125 -0.05" rpy="-1.5708 0.0 0.0"/>
+	</joint>
+
+	<!-- Esquerda -->
+	<link name="roda_esquerda">
+		<visual>
+			<geometry>
+				<cylinder radius="0.035" length="0.05"/>
+			</geometry>
+
+			<material name="black">
+				<color rgba="0.0 0.0 0.0 1"/>
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+				<cylinder radius="0.035" length="0.05"/>
+			</geometry>
+		</collision>
+		
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="5.1458e-5" ixy="0.0" ixz= "0.0" iyy="5.1458e-5" iyz="0.0" izz="6.125e-5"/>
+		</inertial>
+	</link>
+
+	<joint name="roda_esquerda_joint" type="continuous">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="base_link"/>
+		<child link="roda_esquerda"/>
+		<origin xyz="-0.2825 0.125 -0.05" rpy="-1.5708 0.0 0.0"/>
+	</joint>
+
+	<gazebo>
+		<plugin name="differential_drive_controller"
+				filename="libgazebo_ros_diff_drive.so">
+
+		<legacyMode>false</legacyMode>
+		<leftJoint>roda_esquerda_joint</leftJoint>
+		<rightJoint>roda_direita_joint</rightJoint>
+		<robotBaseFrame>base_link</robotBaseFrame>
+		<wheelSeparation>0.25</wheelSeparation>
+		<wheelDiameter>0.07</wheelDiameter>
+		<publishWheelJointState>true</publishWheelJointState>
+
+		</plugin>
+	</gazebo>
+
+	<gazebo>
+		<plugin name="joint_state_publisher"
+				filename="libgazebo_ros_joint_state_publisher.so">
+		<jointName>frontal_joint,roda_frontal_joint</jointName>
+		</plugin>
+	</gazebo>
+
+	<link name="laser_scanner">
+		<visual>
+			<geometry>
+				<box size="0.1 0.1 0.1"/>
+			</geometry>
+		</visual>
+		<collision>
+			<geometry>
+				<box size="0.1 0.1 0.1"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="1e-5"/>
+			<inertia ixx="1e-6" ixy="0.0" ixz="0.0" iyy="1e-6" iyz="0.0" izz="1e-6"/>
+		</inertial>
+	</link>
+
+	<joint name="laser_scanner_joint" type="fixed">
+		<axis xyz="0.0 1 0.0"/>
+		<parent link="base_link"/>
+		<child link="laser_scanner"/>
+		<origin xyz="0.0 0.0 0.1" rpy="0.0 0.0 0.0"/>
+	</joint>
+
+	<gazebo reference="laser_scanner">
+		<sensor type="ray" name="lahead_hokuyo_sensorser">
+			<pose>0 0 0 0 0 0</pose>
+			<visualize>false</visualize>
+			<update_rate>30</update_rate>
+			<ray>
+				<scan>
+					<horizontal>
+						<samples>720</samples>
+						<resolution>1</resolution>
+						<min_angle>-1.578</min_angle>
+						<max_angle>1.578</max_angle>
+					</horizontal>
+				</scan>
+				<range>
+					<min>0.1</min>
+					<max>30.0</max>
+					<resolution>0.1</resolution>
+				</range>
+				<noise>
+					<type>gaussian</type>
+					<mean>0.0</mean>
+					<stddev>0.01</stddev>
+				</noise>
+			</ray>
+			<plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+				<topicName>/scan</topicName>
+				<frameName>laser_scanner</frameName>
+			</plugin>
+		</sensor>
+	</gazebo>
+
+</robot>
