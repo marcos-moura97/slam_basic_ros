@@ -66,7 +66,7 @@ $ catkin_make
 
 ```sh
 $ cd ~/catkin_ws/src
-$ git clone https://github.com/sudrag/line_follower_turtlebot.git
+$ git clone https://github.com/marcos-moura97/slam_basic_ros.git
 $ cd ..
 $ catkin_make
 ```
