@@ -40,7 +40,7 @@ Os arquivos nesta pasta carregam os parâmetros básicos para o SLAM no rviz.
 Os ROS funcionam com nós. O mais importante é o nó /scan, que obtém o valor do scanner a laser, o /gmapping, que mapeia o local,
 o /odom, que obtém os valores da pose, posição e orientação do robô. Os nós são descritos abaixo.
 
-![Gazebo World] (/slam_basic/rqt_graph.png "rqt_graph")
+![Gazebo World](/slam_basic/rqt_graph.png "rqt_graph")
 
 ## Requisitos
 
