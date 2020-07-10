@@ -91,10 +91,10 @@ $ roscore
 $ roslaunch bot_model.launch
 ```
 
-No RVIZ, selecione alguns nós, como mostra a imagem abaixo, e adicione um caminho a seguir com a ferramenta **Meta 2D Nav** apontando para o local
+No RVIZ, selecione alguns nós, como mostra a imagem abaixo, e adicione um caminho a seguir com a ferramenta **2D Nav Goal** apontando para o local
 que você deseja seguir.
 
-![SLAM no ROS] (/slam_basic/rviz1.png "rviz1")
+![SLAM no ROS](/slam_basic/rviz1.png "rviz1")
 
 ## Mensagem final
 
